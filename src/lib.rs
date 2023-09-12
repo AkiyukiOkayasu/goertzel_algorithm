@@ -1,3 +1,9 @@
+//! # Goertzel algorithm
+//!
+//! This crate provides a Goertzel algorithm implementation.
+
+#![cfg_attr(not(test), no_std)]
+
 pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
