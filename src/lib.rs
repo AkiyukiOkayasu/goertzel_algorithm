@@ -34,7 +34,7 @@
 
 use core::f32::consts::PI;
 
-#[derive(Default, Clone, Copy)]
+#[derive(Default)]
 pub struct Goertzel {
     sample_rate: u32,
     target_frequency: f32,
