@@ -15,11 +15,11 @@
 //! let mut phase = 0.0f32;
 //!
 //! let mut goertzel = Goertzel::new();
-//! goertzel.initialize(SAMPLE_RATE, TARGET_FREQUENCY, BLOCK_SIZE);
+//! goertzel.prepare(SAMPLE_RATE, TARGET_FREQUENCY, BLOCK_SIZE);
 //!
 //! for i in 0..BLOCK_SIZE {
 //!     let input = phase.sin();//Generate a sine wave same frequency as the target frequency
-//!     if let Some(normalized_magnitude) = goertzel.add_sample(&input) {
+//!     if let Some(normalized_magnitude) = goertzel.process_sample(&input) {
 //!         println!("{}: {}", i, normalized_magnitude);//127: 1.0
 //!     }
 //!
@@ -91,7 +91,7 @@ impl Goertzel {
     ///
     /// Returns the magnitude of the frequency if a block is completed, otherwise None.
     /// Magnitude is normalized to [0.0, 1.0].
-    pub fn add_sample(&mut self, input: &f32) -> Option<f32> {
+    pub fn process_sample(&mut self, input: &f32) -> Option<f32> {
         self.q0 = self.coeff * self.q1 - self.q2 + input;
         self.q2 = self.q1;
         self.q1 = self.q0;
@@ -135,7 +135,7 @@ mod tests {
         for _k in 0..100 {
             for i in 0..BLOCK_SIZE {
                 let input = phase.sin();
-                if let Some(v) = goertzel.add_sample(&input) {
+                if let Some(v) = goertzel.process_sample(&input) {
                     // println!("{}: {}", i, v);
                     assert_eq!(i, 127);
                     assert_relative_eq!(v, 1.0f32, epsilon = 0.0001f32);
@@ -163,7 +163,7 @@ mod tests {
         for _k in 0..100 {
             for i in 0..BLOCK_SIZE {
                 let input = phase.sin();
-                if let Some(v) = goertzel.add_sample(&input) {
+                if let Some(v) = goertzel.process_sample(&input) {
                     println!("{}: {}", i, v);
                     assert_eq!(i, 127);
                     assert_relative_ne!(v, 0.0001f32);
