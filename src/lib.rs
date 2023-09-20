@@ -64,6 +64,13 @@ impl Goertzel {
         }
     }
 
+    /// Prepare the Goertzel algorithm's coefficients.
+    ///
+    /// # Arguments
+    ///
+    /// * 'sample_rate' - The sample rate of the input signal.
+    /// * 'target_frequency' - The frequency to detect.
+    /// * 'block_size' - The number of samples to process at a time. It is like FFT size, but does not have to be a power of 2.
     pub fn prepare(&mut self, sample_rate: u32, target_frequency: f32, block_size: u32) {
         let k = (block_size as f32 * target_frequency) / sample_rate as f32;
         let w = (2.0f32 * PI / block_size as f32) * k;
@@ -81,7 +88,7 @@ impl Goertzel {
         self.counter = 0u32;
     }
 
-    /// Add a sample to the Goertzel algorithm.
+    /// Process a sample.
     ///
     /// # Arguments
     ///
