@@ -64,7 +64,7 @@ impl Goertzel {
         }
     }
 
-    pub fn initialize(&mut self, sample_rate: u32, target_frequency: f32, block_size: u32) {
+    pub fn prepare(&mut self, sample_rate: u32, target_frequency: f32, block_size: u32) {
         let k = (block_size as f32 * target_frequency) / sample_rate as f32;
         let w = (2.0f32 * PI / block_size as f32) * k;
         self.cosine = libm::cosf(w);
@@ -131,7 +131,7 @@ mod tests {
         let mut phase = 0.0f32;
 
         let mut goertzel = Goertzel::new();
-        goertzel.initialize(SAMPLE_RATE, TARGET_FREQUENCY, BLOCK_SIZE);
+        goertzel.prepare(SAMPLE_RATE, TARGET_FREQUENCY, BLOCK_SIZE);
         for _k in 0..100 {
             for i in 0..BLOCK_SIZE {
                 let input = phase.sin();
@@ -158,7 +158,7 @@ mod tests {
         let mut phase = 0.0f32;
 
         let mut goertzel = Goertzel::new();
-        goertzel.initialize(SAMPLE_RATE, 2000.0f32, BLOCK_SIZE);
+        goertzel.prepare(SAMPLE_RATE, 2000.0f32, BLOCK_SIZE);
 
         for _k in 0..100 {
             for i in 0..BLOCK_SIZE {
