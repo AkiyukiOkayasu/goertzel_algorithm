@@ -98,6 +98,8 @@ impl Goertzel {
     ///
     /// Returns the magnitude of the frequency if a block is completed, otherwise None.
     /// Magnitude is normalized to [0.0, 1.0].
+    #[inline]
+    #[must_use]
     pub fn process_sample(&mut self, input: &f32) -> Option<f32> {
         self.q0 = self.coeff * self.q1 - self.q2 + input;
         self.q2 = self.q1;
