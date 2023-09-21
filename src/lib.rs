@@ -19,8 +19,8 @@
 //!
 //! for i in 0..BLOCK_SIZE {
 //!     let input = phase.sin();//Generate a sine wave same frequency as the target frequency
-//!     if let Some(MagPhase) = goertzel.process_sample(&input) {
-//!         println!("{}: {}", i, MagPhase.magnitude);//127: 1.0
+//!     if let Some(mag_phase) = goertzel.process_sample(&input) {
+//!         println!("{}: {}", i, mag_phase.magnitude);//127: 1.0
 //!     }
 //!
 //!     phase += phase_increment;
@@ -40,6 +40,9 @@ pub struct MagnitudePhase {
     pub phase: f32,
 }
 
+/// Basic Goertzel algorithm.
+///
+/// It calculates the magnitude and phase of the frequency.
 #[derive(Default)]
 pub struct Goertzel {
     sample_rate: u32,
@@ -142,6 +145,34 @@ impl Goertzel {
     }
 }
 
+/// Optimized Goertzel algorithm.
+///
+/// It only calculates the magnitude.
+/// ```
+/// use goertzel_algorithm::OptimizedGoertzel;
+/// use approx::{assert_relative_eq, assert_relative_ne};
+///
+/// const SAMPLE_RATE: u32 = 48_000u32;
+/// const TARGET_FREQUENCY: f32 = 750.0f32;
+/// const BLOCK_SIZE: u32 = 128u32;
+/// let phase_increment = TARGET_FREQUENCY * std::f32::consts::PI * 2.0f32 * (1.0f32 / SAMPLE_RATE as f32);
+/// let mut phase = 0.0f32;
+///
+/// let mut goertzel = OptimizedGoertzel::new();
+/// goertzel.prepare(SAMPLE_RATE, TARGET_FREQUENCY, BLOCK_SIZE);
+///
+/// for i in 0..BLOCK_SIZE {
+///     let input = phase.sin();//Generate a sine wave same frequency as the target frequency
+///     if let Some(magnitude) = goertzel.process_sample(&input) {
+///         println!("{}: {}", i, magnitude);//127: 1.0
+///     }
+///
+///     phase += phase_increment;
+///     if phase >= std::f32::consts::PI * 2.0f32 {
+///         phase -= std::f32::consts::PI * 2.0f32;
+///     }
+/// }            
+/// ```
 #[derive(Default)]
 pub struct OptimizedGoertzel {
     sample_rate: u32,
