@@ -15,3 +15,8 @@ libm = "0.2.7"
 
 [dev-dependencies]
 approx = "0.5.1"
+criterion = {version = "0.5.1", features = ["html_reports"]}  
+
+[[bench]]
+name = "benchmark"
+harness = false
