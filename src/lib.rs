@@ -107,11 +107,14 @@ impl Goertzel {
 
         self.counter += 1;
         if self.counter >= self.block_size {
+            // Basic goertzel (magnitude and phase)
             let real = self.q1 - self.q2 * self.cosine;
             let imag = self.q2 * self.sine;
             let magnitude = libm::sqrtf(real * real + imag * imag);
-            //optimized goertzel (only magnitude)
+
+            // optimized goertzel (only magnitude)
             //let magnitude = libm::sqrtf((self.q1*self.q1) + (self.q2*self.q2) - (self.q1*self.q2*self.coeff));
+
             let normalized_magnitude = magnitude / (self.block_size as f32 / 2.0f32); //[0.0, 1.0]
 
             self.q1 = 0.0f32;
