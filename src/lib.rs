@@ -134,7 +134,7 @@ impl Goertzel {
 
             Some(MagnitudePhase {
                 magnitude: normalized_magnitude,
-                phase: phase,
+                phase,
             })
         } else {
             None
