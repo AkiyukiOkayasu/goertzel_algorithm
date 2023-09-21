@@ -4,11 +4,12 @@ version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 authors = ["Akiyuki Okayasu <akiyuki.okayasu@gmail.com>"]
+description = "Goertzel algorithm implementation"
+categories = ["no-std", "embedded", "dsp"]
+keywords = ["dsp", "goertzel", "embedded"]
 repository = "https://github.com/AkiyukiOkayasu/goertzel_algorithm"
 readme = "README.md"
-# rust-version = "1.70.0"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+rust-version = "1.60.0"
 
 [dependencies]
 libm = "0.2.7"
